@@ -27,25 +27,29 @@ cells.forEach((cell, i) => {
 function play(cell, index) {
   if (board[index]) return
 
-  board[index] = turn
-  cell.innerHTML = turn === "X"
+  const currentPlayer = turn
+
+  board[index] = currentPlayer
+  cell.innerHTML = currentPlayer === "X"
     ? xIcon.outerHTML
     : oIcon.outerHTML
 
-  if (checkWin()) {
-    setTimeout(() => alert(`${turn} wins!`), 100)
+  if (checkWin(currentPlayer)) {
+    setTimeout(() => alert(`${currentPlayer} wins!`), 100)
     reset()
     return
   }
 
-  if (!board.includes("")) {
+  if (board.every(cell => cell !== "")) {
     setTimeout(() => alert("Draw!"), 100)
     reset()
     return
   }
 
-  turn = turn === "X" ? "O" : "X"
+  turn = currentPlayer === "X" ? "O" : "X"
 }
+
+
 
 function checkWin() {
   return winPatterns.some(p => p.every(i => board[i] === turn))
